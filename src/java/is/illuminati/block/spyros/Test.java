@@ -28,7 +28,7 @@ public class Test extends AbstractModule {
 
 	public static void main(String[] args) {
 		File file = new File(
-				"/Users/laddi/Desktop/Spyros/9.1.2014 20-03-15.tcx");
+				"/Users/laddi/Desktop/Spyros/30.7.2013 17-40-33.tcx");
 
 		Injector injector = Guice.createInjector(new Test());
 		TcxParser parser = injector.getInstance(CommonsDigesterTcxParser.class);
@@ -39,12 +39,12 @@ public class Test extends AbstractModule {
 				System.out.println("Start time: " + activity.getStartTime().toString());
 				System.out.println("Distance: " + activity.getDistance().getValue() + "m");
 				
-				Duration duration = activity.getGrossDuration();
+				Duration duration = activity.getNetDuration();
 				long hours = duration.getStandardHours();
 				long minutes = duration.getStandardMinutes() - (hours * 60);
 				long seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
 				
-				System.out.println("Gross duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
+				System.out.println("Net duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
 				System.out.println("Average speed: " + activity.getSpeed().getValue(Unit.KilometersPerHour) + " km/h");
 				System.out.println("Average pace: " + activity.getSpeed().toPace());
 				
@@ -53,10 +53,18 @@ public class Test extends AbstractModule {
 				ImmutableList<Lap>laps = activity.getLaps();
 				for (Lap lap : laps) {
 					System.out.println("Lap start time: " + lap.getStartTime().toString());
-					System.out.println("Lap gross duration: " + lap.getGrossDuration().getStandardSeconds() + "s");
+
+					duration = lap.getNetDuration();
+					hours = duration.getStandardHours();
+					minutes = duration.getStandardMinutes() - (hours * 60);
+					seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
+					
+					System.out.println("Net lap duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
 					System.out.println("Lap distance: " + lap.getDistance().getValue() + "m");
 					System.out.println("Average lap speed: " + lap.getSpeed().getValue(Unit.KilometersPerHour) + " km/h");
 					System.out.println("Average lap pace: " + lap.getSpeed().toPace());
+
+					System.out.println("---------------------------------");
 				}
 				
 				/*ImmutableList<TrackPoint> points = activity.getTrackPoints();
