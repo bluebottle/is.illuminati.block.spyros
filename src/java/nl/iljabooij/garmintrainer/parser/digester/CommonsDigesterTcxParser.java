@@ -94,7 +94,7 @@ public class CommonsDigesterTcxParser implements TcxParser {
 	 * {@inheritDoc}
 	 */
 	public List<Activity> parse(final InputStream inputStream) throws ParseException {
-		if (logger.isDebugEnabled()) {
+		if (logger != null && logger.isDebugEnabled()) {
 			logger.debug("starting parsing inputStream");
 		}
 
@@ -110,7 +110,7 @@ public class CommonsDigesterTcxParser implements TcxParser {
 			throw new ParseException("SAXException parsing TCX file", e);
 		}
 		
-		if (logger.isDebugEnabled()) {
+		if (logger != null && logger.isDebugEnabled()) {
 			logger.debug("finished parsing inputStream");
 		}
 		
