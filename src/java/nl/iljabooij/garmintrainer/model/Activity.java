@@ -134,6 +134,10 @@ public class Activity implements Comparable<Activity>, Serializable {
 		return distance;
 	}
 	
+	public Speed getSpeed() {
+		return Speed.createSpeedInMetersPerSecond(getDistance(), getGrossDuration());
+	}
+	
 	/**
 	 * Get total altitude gained
 	 * @return total altitude gain

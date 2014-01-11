@@ -127,4 +127,8 @@ public class Lap implements Serializable {
 		
 		return distance;
 	}
+	
+	public Speed getSpeed() {
+		return Speed.createSpeedInMetersPerSecond(getDistance(), getGrossDuration());
+	}
 }

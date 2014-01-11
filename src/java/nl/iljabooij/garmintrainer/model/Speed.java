@@ -214,6 +214,16 @@ public final class Speed implements Comparable<Speed>, Serializable {
 	public String toString() {
 		return unit.format.format(getValue()) + " " + unit.suffix;
 	}
+	
+	public String toPace() {
+		double speed = getValue(Unit.KilometersPerHour);
+		double pace = 60 / speed;
+		
+		int minutes = (int) pace;
+		int seconds = (int)((pace - minutes) * 60);
+		
+		return minutes + ":" + seconds;
+	}
 
 	@Override
 	public int compareTo(final Speed other) {

@@ -7,6 +7,7 @@ import java.util.List;
 
 import nl.iljabooij.garmintrainer.model.Activity;
 import nl.iljabooij.garmintrainer.model.Lap;
+import nl.iljabooij.garmintrainer.model.Speed.Unit;
 import nl.iljabooij.garmintrainer.parser.TcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.CommonsDigesterTcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.ParseException;
@@ -44,6 +45,8 @@ public class Test extends AbstractModule {
 				long seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
 				
 				System.out.println("Gross duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
+				System.out.println("Average speed: " + activity.getSpeed().getValue(Unit.KilometersPerHour) + " km/h");
+				System.out.println("Average pace: " + activity.getSpeed().toPace());
 				
 				System.out.println("---------------------------------");
 				
@@ -52,6 +55,8 @@ public class Test extends AbstractModule {
 					System.out.println("Lap start time: " + lap.getStartTime().toString());
 					System.out.println("Lap gross duration: " + lap.getGrossDuration().getStandardSeconds() + "s");
 					System.out.println("Lap distance: " + lap.getDistance().getValue() + "m");
+					System.out.println("Average lap speed: " + lap.getSpeed().getValue(Unit.KilometersPerHour) + " km/h");
+					System.out.println("Average lap pace: " + lap.getSpeed().toPace());
 				}
 				
 				/*ImmutableList<TrackPoint> points = activity.getTrackPoints();
