@@ -46,10 +46,10 @@ public class Activity implements Serializable {
 	private Date date;
 	
 	@Column(name = COLUMN_DURATION)
-	private Integer duration;
+	private Long duration;
 	
 	@Column(name = COLUMN_LENGTH)
-	private Integer length;
+	private Long length;
 	
 	@OneToMany(mappedBy = "activity")
 	private List<Lap> laps;

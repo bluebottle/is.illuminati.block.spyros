@@ -7,15 +7,17 @@ import java.util.List;
 
 import nl.iljabooij.garmintrainer.model.Activity;
 import nl.iljabooij.garmintrainer.model.Lap;
-import nl.iljabooij.garmintrainer.model.TrackPoint;
 import nl.iljabooij.garmintrainer.parser.TcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.CommonsDigesterTcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.ParseException;
+
+import org.joda.time.Duration;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.idega.util.text.TextSoap;
 
 public class Test extends AbstractModule {
 
@@ -34,18 +36,22 @@ public class Test extends AbstractModule {
 
 			for (Activity activity : activities) {
 				System.out.println("Start time: " + activity.getStartTime().toString());
-				System.out.println("End time: " + activity.getEndTime().toString());
-				System.out.println("Distance: " + activity.getDistance().getValue());
-				System.out.println("Gross duration: " + activity.getGrossDuration().getStandardSeconds());
-				System.out.println("Net duration: " + activity.getNetDuration().getStandardSeconds());
-				System.out.println("Altitude gain: " + activity.getAltitudeGain().getValueInMeters() + "m");
+				System.out.println("Distance: " + activity.getDistance().getValue() + "m");
+				
+				Duration duration = activity.getGrossDuration();
+				long hours = duration.getStandardHours();
+				long minutes = duration.getStandardMinutes() - (hours * 60);
+				long seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
+				
+				System.out.println("Gross duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
+				
+				System.out.println("---------------------------------");
 				
 				ImmutableList<Lap>laps = activity.getLaps();
 				for (Lap lap : laps) {
 					System.out.println("Lap start time: " + lap.getStartTime().toString());
-					System.out.println("Lap end time: " + lap.getEndTime().toString());
-					System.out.println("Lap gross duration: " + lap.getGrossDuration().getStandardSeconds());
-					System.out.println("Lap net duration: " + lap.getNetDuration().getStandardSeconds());
+					System.out.println("Lap gross duration: " + lap.getGrossDuration().getStandardSeconds() + "s");
+					System.out.println("Lap distance: " + lap.getDistance().getValue() + "m");
 				}
 				
 				/*ImmutableList<TrackPoint> points = activity.getTrackPoints();

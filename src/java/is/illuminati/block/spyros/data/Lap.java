@@ -34,8 +34,8 @@ public class Lap implements Serializable {
 	private Activity activity;
 	
 	@Column(name = COLUMN_DURATION)
-	private Integer duration;
+	private Long duration;
 	
 	@Column(name = COLUMN_LENGTH)
-	private Integer length;
+	private Long length;
 }

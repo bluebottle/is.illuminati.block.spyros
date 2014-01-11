@@ -116,4 +116,15 @@ public class Lap implements Serializable {
 		}
 		return duration;
 	}
+	
+	public Length getDistance() {
+		Length distance = Length.createLengthInMeters(0);
+		for (TrackPoint trackPoint: getTrackPoints()) {
+			if (trackPoint.getDistance().getValue() > distance.getValue()) {
+				distance = trackPoint.getDistance();
+			}
+		}
+		
+		return distance;
+	}
 }

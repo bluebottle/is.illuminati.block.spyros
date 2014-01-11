@@ -124,7 +124,14 @@ public class Activity implements Comparable<Activity>, Serializable {
 	 * @return total distance.
 	 */
 	public Length getDistance() {
-		return getLastTrackPoint().getDistance();
+		Length distance = Length.createLengthInMeters(0);
+		for (TrackPoint trackPoint: getTrackPoints()) {
+			if (trackPoint.getDistance().getValue() > distance.getValue()) {
+				distance = trackPoint.getDistance();
+			}
+		}
+		
+		return distance;
 	}
 	
 	/**
