@@ -118,21 +118,13 @@ public class Lap implements Serializable {
 	}
 	
 	public Length getDistance() {
-		Length initial = Length.createLengthInMeters(0);
 		Length distance = Length.createLengthInMeters(0);
 		for (TrackPoint trackPoint: getTrackPoints()) {
-			if (initial.getValue() == 0 && trackPoint.getDistance().getValue() > 0) {
-				initial = trackPoint.getDistance();
-			}
 			if (trackPoint.getDistance().getValue() > distance.getValue()) {
 				distance = trackPoint.getDistance();
 			}
 		}
 		
-		return distance.substract(initial);
-	}
-	
-	public Speed getSpeed() {
-		return Speed.createSpeedInMetersPerSecond(getDistance(), getNetDuration());
+		return distance;
 	}
 }

@@ -25,6 +25,8 @@ import java.text.NumberFormat;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.Duration;
 
+import com.idega.util.text.TextSoap;
+
 public final class Speed implements Comparable<Speed>, Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -222,7 +224,7 @@ public final class Speed implements Comparable<Speed>, Serializable {
 		int minutes = (int) pace;
 		int seconds = (int)((pace - minutes) * 60);
 		
-		return minutes + ":" + seconds;
+		return minutes + ":" + TextSoap.addZero(seconds);
 	}
 
 	@Override

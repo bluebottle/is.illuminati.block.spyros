@@ -7,6 +7,8 @@ import java.util.List;
 
 import nl.iljabooij.garmintrainer.model.Activity;
 import nl.iljabooij.garmintrainer.model.Lap;
+import nl.iljabooij.garmintrainer.model.Length;
+import nl.iljabooij.garmintrainer.model.Speed;
 import nl.iljabooij.garmintrainer.model.Speed.Unit;
 import nl.iljabooij.garmintrainer.parser.TcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.CommonsDigesterTcxParser;
@@ -50,6 +52,7 @@ public class Test extends AbstractModule {
 				
 				System.out.println("---------------------------------");
 				
+				Length previousDistance = null;
 				ImmutableList<Lap>laps = activity.getLaps();
 				for (Lap lap : laps) {
 					System.out.println("Lap start time: " + lap.getStartTime().toString());
@@ -60,11 +63,17 @@ public class Test extends AbstractModule {
 					seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
 					
 					System.out.println("Net lap duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
-					System.out.println("Lap distance: " + lap.getDistance().getValue() + "m");
-					System.out.println("Average lap speed: " + lap.getSpeed().getValue(Unit.KilometersPerHour) + " km/h");
-					System.out.println("Average lap pace: " + lap.getSpeed().toPace());
+					
+					Length distance = previousDistance != null ? lap.getDistance().substract(previousDistance) : lap.getDistance();
+					Speed speed = Speed.createSpeedInMetersPerSecond(distance, duration);
+					
+					System.out.println("Lap distance: " + distance.getValue() + "m");
+					System.out.println("Average lap speed: " + speed.getValue(Unit.KilometersPerHour) + " km/h");
+					System.out.println("Average lap pace: " + speed.toPace());
 
 					System.out.println("---------------------------------");
+					
+					previousDistance = lap.getDistance();
 				}
 				
 				/*ImmutableList<TrackPoint> points = activity.getTrackPoints();
