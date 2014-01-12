@@ -127,4 +127,29 @@ public class Lap implements Serializable {
 		
 		return distance;
 	}
+
+	public int getMaximumHeartRate() {
+		int heartRate = 0;
+		for (TrackPoint trackPoint: getTrackPoints()) {
+			if (trackPoint.getHeartRate() > heartRate) {
+				heartRate = trackPoint.getHeartRate();
+			}
+		}
+		
+		return heartRate;
+	}
+	
+	public int getAverageHeartRate() {
+		int count = 0;
+		int total = 0;
+		
+		for (TrackPoint trackPoint: getTrackPoints()) {
+			if (trackPoint.getHeartRate() > 0) {
+				count++;
+				total += trackPoint.getHeartRate();
+			}
+		}
+		
+		return count > 0 ? Math.round(total  / count) : 0;
+	}
 }
