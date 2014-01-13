@@ -38,10 +38,12 @@ public class Lap implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final DateTime startTime;
 	private final ImmutableList<Track> tracks;
+	private final Length distance;
 	
-	public Lap(final DateTime startTime, final List<Track> tracks) {
+	public Lap(final DateTime startTime, final List<Track> tracks, final Length distance) {
 		this.startTime = startTime;
 		this.tracks = ImmutableList.copyOf(tracks);
+		this.distance = distance;
 	}
 	
 	/**
@@ -118,14 +120,7 @@ public class Lap implements Serializable {
 	}
 	
 	public Length getDistance() {
-		Length distance = Length.createLengthInMeters(0);
-		for (TrackPoint trackPoint: getTrackPoints()) {
-			if (trackPoint.getDistance().getValue() > distance.getValue()) {
-				distance = trackPoint.getDistance();
-			}
-		}
-		
-		return distance;
+		return this.distance;
 	}
 
 	public int getMaximumHeartRate() {

@@ -23,6 +23,7 @@ import java.util.List;
 
 import nl.iljabooij.garmintrainer.model.Activity;
 import nl.iljabooij.garmintrainer.model.Lap;
+import nl.iljabooij.garmintrainer.model.Length;
 import nl.iljabooij.garmintrainer.model.Track;
 import nl.iljabooij.garmintrainer.model.TrackPoint;
 
@@ -52,9 +53,11 @@ public final class ActivityType {
     public Activity build() {
     	final DateTime dateTimeForId = dateTimeFormatter.parseDateTime(id);
     	
+    	Length totalLength = Length.createLengthInMeters(0);
     	TrackPoint previousTrackPoint = null;
     	ArrayList<Lap> laps = Lists.newArrayList();
         for (LapType lapType: lapBuilders) {
+        	Length length = Length.createLengthInMeters(0);
         	final ArrayList<Track> tracks = Lists.newArrayList();
         	for (TrackType trackType: lapType.getTracks()) {
         		final ArrayList<TrackPoint> trackPoints = Lists.newArrayList();
@@ -65,12 +68,17 @@ public final class ActivityType {
         			} else {
         				newTrackPoint = trackPointType.buildNonStartTrackPoint(previousTrackPoint);
         			}
+        			if (newTrackPoint.getDistance().getValue() > length.getValue()) {
+        				length = newTrackPoint.getDistance();
+        			}
         			trackPoints.add(newTrackPoint);
         			previousTrackPoint = newTrackPoint;
         		}
         		tracks.add(new Track(trackPoints));
         	}
-        	laps.add(new Lap(lapType.getStartTime(), tracks));
+        	
+        	laps.add(new Lap(lapType.getStartTime(), tracks, length.substract(totalLength)));
+        	totalLength = length;
         }
          
         return new Activity(dateTimeForId, laps);

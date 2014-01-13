@@ -33,7 +33,7 @@ public class Test extends AbstractModule {
 
 	public static void main(String[] args) {
 		File file = new File(
-				"/Users/laddi/Desktop/Spyros/8.6.2013 08-13-46.tcx");
+				"/Users/laddi/Desktop/Spyros/17.1.2013 18-54-12.tcx");
 
 		Injector injector = Guice.createInjector(new Test());
 		TcxParser parser = injector.getInstance(CommonsDigesterTcxParser.class);
@@ -61,7 +61,6 @@ public class Test extends AbstractModule {
 				
 				System.out.println("---------------------------------");
 				
-				Length previousDistance = null;
 				ImmutableList<Lap>laps = activity.getLaps();
 				for (Lap lap : laps) {
 					System.out.println("Lap start time: " + dateFormat.format(lap.getStartTime().toDate()));
@@ -73,7 +72,7 @@ public class Test extends AbstractModule {
 					
 					System.out.println("Net lap duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
 					
-					Length distance = previousDistance != null ? lap.getDistance().substract(previousDistance) : lap.getDistance();
+					Length distance = lap.getDistance();
 					Speed speed = Speed.createSpeedInMetersPerSecond(distance, duration);
 					
 					System.out.println("Lap distance: " + format.format(distance.getValue(Length.Unit.Kilometer)) + " km");
@@ -82,8 +81,6 @@ public class Test extends AbstractModule {
 					System.out.println("Lap heart rate: " + lap.getAverageHeartRate() + "/" + lap.getMaximumHeartRate() + " bpm");
 
 					System.out.println("---------------------------------");
-					
-					previousDistance = lap.getDistance();
 				}
 				
 				/*ImmutableList<TrackPoint> points = activity.getTrackPoints();

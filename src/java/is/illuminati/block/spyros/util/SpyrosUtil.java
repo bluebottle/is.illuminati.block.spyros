@@ -3,7 +3,12 @@ package is.illuminati.block.spyros.util;
 import java.util.Date;
 import java.util.List;
 
+import nl.iljabooij.garmintrainer.model.Length;
+import nl.iljabooij.garmintrainer.model.Length.Unit;
+import nl.iljabooij.garmintrainer.model.Speed;
+
 import org.apache.commons.lang.StringEscapeUtils;
+import org.joda.time.Duration;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -34,5 +39,9 @@ public class SpyrosUtil {
 	public static boolean contains(List<?> objects, Object object) {
 		boolean contains = objects.contains(object);
 		return contains;
+	}
+	
+	public static String getPace(double distance, long seconds) {
+		return Speed.createSpeedInMetersPerSecond(Length.createLength(distance, Unit.Kilometer), Duration.millis(seconds * 1000)).toPace();
 	}
 }

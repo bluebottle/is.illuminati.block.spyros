@@ -31,6 +31,8 @@ public class Activity implements Serializable {
 	private static final String COLUMN_DATE = "activity_date";
 	private static final String COLUMN_DURATION = "duration";
 	private static final String COLUMN_LENGTH = "length";
+	private static final String COLUMN_AVERAGE_HEART_RATE = "average_heart_rate";
+	private static final String COLUMN_MAXIMUM_HEART_RATE = "maximum_heart_rate";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +52,12 @@ public class Activity implements Serializable {
 	
 	@Column(name = COLUMN_LENGTH)
 	private Long length;
+	
+	@Column(name = COLUMN_AVERAGE_HEART_RATE)
+	private Integer averageHeartRate;
+	
+	@Column(name = COLUMN_MAXIMUM_HEART_RATE)
+	private Integer maximumHeartRate;
 	
 	@OneToMany(mappedBy = "activity")
 	private List<Lap> laps;
