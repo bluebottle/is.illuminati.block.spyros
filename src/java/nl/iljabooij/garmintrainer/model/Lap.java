@@ -123,6 +123,10 @@ public class Lap implements Serializable {
 		return this.distance;
 	}
 
+	public Speed getSpeed() {
+		return Speed.createSpeedInMetersPerSecond(getDistance(), getGrossDuration());
+	}
+	
 	public int getMaximumHeartRate() {
 		int heartRate = 0;
 		for (TrackPoint trackPoint: getTrackPoints()) {

@@ -16,6 +16,7 @@ import nl.iljabooij.garmintrainer.parser.TcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.CommonsDigesterTcxParser;
 import nl.iljabooij.garmintrainer.parser.digester.ParseException;
 
+import org.apache.commons.lang.time.DurationFormatUtils;
 import org.joda.time.Duration;
 
 import com.google.common.collect.ImmutableList;
@@ -48,13 +49,7 @@ public class Test extends AbstractModule {
 			for (Activity activity : activities) {
 				System.out.println("Start time: " + dateFormat.format(activity.getStartTime().toDate()));
 				System.out.println("Distance: " + format.format(activity.getDistance().getValue(Length.Unit.Kilometer)) + " km");
-				
-				Duration duration = activity.getNetDuration();
-				long hours = duration.getStandardHours();
-				long minutes = duration.getStandardMinutes() - (hours * 60);
-				long seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
-				
-				System.out.println("Net duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
+				System.out.println("Net duration: " + DurationFormatUtils.formatDuration(activity.getNetDuration().getMillis(), "H:mm:ss"));
 				System.out.println("Average speed: " + format.format(activity.getSpeed().getValue(Unit.KilometersPerHour)) + " km/h");
 				System.out.println("Average pace: " + activity.getSpeed().toPace() + " m/km");
 				System.out.println("Heart rate: " + activity.getAverageHeartRate() + "/" + activity.getMaximumHeartRate() + " bpm");
@@ -64,20 +59,10 @@ public class Test extends AbstractModule {
 				ImmutableList<Lap>laps = activity.getLaps();
 				for (Lap lap : laps) {
 					System.out.println("Lap start time: " + dateFormat.format(lap.getStartTime().toDate()));
-
-					duration = lap.getNetDuration();
-					hours = duration.getStandardHours();
-					minutes = duration.getStandardMinutes() - (hours * 60);
-					seconds = duration.getStandardSeconds() - (minutes * 60) - (hours * 60 * 60);
-					
-					System.out.println("Net lap duration: " + TextSoap.addZero((int) hours) + ":" + TextSoap.addZero((int) minutes) + ":" + TextSoap.addZero((int) seconds));
-					
-					Length distance = lap.getDistance();
-					Speed speed = Speed.createSpeedInMetersPerSecond(distance, duration);
-					
-					System.out.println("Lap distance: " + format.format(distance.getValue(Length.Unit.Kilometer)) + " km");
-					System.out.println("Average lap speed: " + format.format(speed.getValue(Unit.KilometersPerHour)) + " km/h");
-					System.out.println("Average lap pace: " + speed.toPace() + " m/km");
+					System.out.println("Net lap duration: " + DurationFormatUtils.formatDuration(lap.getNetDuration().getMillis(), "H:mm:ss"));
+					System.out.println("Lap distance: " + format.format(lap.getDistance().getValue(Length.Unit.Kilometer)) + " km");
+					System.out.println("Average lap speed: " + format.format(lap.getSpeed().getValue(Unit.KilometersPerHour)) + " km/h");
+					System.out.println("Average lap pace: " + lap.getSpeed().toPace() + " m/km");
 					System.out.println("Lap heart rate: " + lap.getAverageHeartRate() + "/" + lap.getMaximumHeartRate() + " bpm");
 
 					System.out.println("---------------------------------");
