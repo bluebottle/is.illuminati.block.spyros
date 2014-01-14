@@ -1,5 +1,13 @@
 package is.illuminati.block.spyros;
 
+import is.illuminati.block.spyros.garmin.model.Activity;
+import is.illuminati.block.spyros.garmin.model.Lap;
+import is.illuminati.block.spyros.garmin.model.Length;
+import is.illuminati.block.spyros.garmin.model.Speed.Unit;
+import is.illuminati.block.spyros.garmin.parser.TcxParser;
+import is.illuminati.block.spyros.garmin.parser.digester.CommonsDigesterTcxParser;
+import is.illuminati.block.spyros.garmin.parser.digester.ParseException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,24 +15,13 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import nl.iljabooij.garmintrainer.model.Activity;
-import nl.iljabooij.garmintrainer.model.Lap;
-import nl.iljabooij.garmintrainer.model.Length;
-import nl.iljabooij.garmintrainer.model.Speed;
-import nl.iljabooij.garmintrainer.model.Speed.Unit;
-import nl.iljabooij.garmintrainer.parser.TcxParser;
-import nl.iljabooij.garmintrainer.parser.digester.CommonsDigesterTcxParser;
-import nl.iljabooij.garmintrainer.parser.digester.ParseException;
-
 import org.apache.commons.lang.time.DurationFormatUtils;
-import org.joda.time.Duration;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.idega.util.LocaleUtil;
-import com.idega.util.text.TextSoap;
 
 public class Test extends AbstractModule {
 

@@ -1,11 +1,11 @@
 package is.illuminati.block.spyros.util;
 
+import is.illuminati.block.spyros.garmin.model.Length;
+import is.illuminati.block.spyros.garmin.model.Speed;
+import is.illuminati.block.spyros.garmin.model.Length.Unit;
+
 import java.util.Date;
 import java.util.List;
-
-import nl.iljabooij.garmintrainer.model.Length;
-import nl.iljabooij.garmintrainer.model.Length.Unit;
-import nl.iljabooij.garmintrainer.model.Speed;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.Duration;
